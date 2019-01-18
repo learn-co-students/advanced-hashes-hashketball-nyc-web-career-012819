@@ -162,16 +162,42 @@ end
 shoe_size[0]
 end
 
-def shoe_size (team_name)
+def team_colors (team_name)
   colors =[]
   game_hash.each do |location, team_data|
     team_data.each do |element, description|
-      binding.pry
       if description == team_name
-        binding.pry
-        team_data[:colors].each do |x| colors << x end
+        team_data[:colors].each do |x|
+          colors << x
+        end
       end
     end
   end
-  colors[0]
+  colors
+end
+
+def team_names
+  names =[]
+  game_hash.each do |location, team_data|
+    team_data.each do |element, description|
+      if element == :team_name
+        names << description
+      end
+    end
+  end
+  names
+end
+
+def player_numbers (team_name)
+  numbers = []
+  game_hash.each do |location, team_data|
+    team_data.each do |element, description|
+      if description == team_name
+        team_data[:players].each do |name, stats|
+          numbers << stats[:number]
+        end
+      end
+    end
+  end
+  numbers
 end
