@@ -201,3 +201,19 @@ def player_numbers (team_name)
   end
   numbers
 end
+
+def player_stats (player_name)
+  numbers =[]
+  game_hash.each do |location, team_data|
+    team_data.each do |element, description|
+      if element == :players
+        team_data[:players].each do |name, stats|
+                if name.to_s.split("_").join(" ") == player_name
+                  numbers << stats
+                end
+        end
+      end
+    end
+  end
+  numbers[0]
+end
