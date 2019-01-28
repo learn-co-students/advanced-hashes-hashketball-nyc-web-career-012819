@@ -160,7 +160,7 @@ end
 
 def player_numbers(team_name)
   get_team(team_name)[:players].values.map do |element|
-    element[:points]
+    element[:number]
   end
 end
 
