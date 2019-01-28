@@ -136,68 +136,47 @@ def good_practices
   end
 end
 
+def team_names  
+  game_hash.map do |key, value|
+    value[:team_name]
+  end
+end
+
+def most_points_scored
+end
+
+def winning_team
+end
+
+def player_with_longest_name
+end
+
+def long_name_steals_a_ton?
+end
+
 def num_points_scored(player_name)
-  game_hash.each do |team, data|
-    game_hash[team][:players].each do |player, stats|
-      if player_name.to_s == player.to_s
-        return stats[:points]
-      end
-    end
-  end
-end
-
-def shoe_size(player_name)
-  game_hash.each do |team, data|
-    game_hash[team][:players].each do |player, stats|
-      if player_name.to_s == player.to_s
-        return stats[:shoe]
-      end
-    end
-  end
-end
-
-def team_colors(team_name)
-  game_hash.each do |team, data|
-    if data[:team_name] == team_name
-      return data[:colors]
-    end
-  end
+  get_player(player_name).values[0][:points]
 end
 
 def player_numbers(team_name)
-  array = []
-  
-  game_hash.each do |team, data|
-    if data[:team_name] == team_name
-      data[:players].each do |name, stats|
-        array.push(stats[:number])
-      end
-    end
+  get_team(team_name)[:players].values.map do |element|
+    element[:points]
   end
-  
-  array
 end
 
 def player_stats(player_name)
-  game_hash.each do |team, data|
-    game_hash[team][:players].each do |player, stats|
-      if player_name.to_s == player.to_s
-        return stats
-      end
-    end
-  end
+  get_player(player_name).values[0]
 end
 
-def team_names
-  array = []
-  
-  game_hash.each do |key, value|
-    array.push(value[:team_name])
-  end
-  
-  array
+def team_colors(team_name)
+  get_team(team_name)[:colors]
 end
 
+def shoe_size(player_name)
+  get_player(player_name).values[0][:shoe]
+end
+
+# To-do: Rewrite to have less code?
 def big_shoe_rebounds
   largest_shoe = 0
   most_rebounds = 0
@@ -214,18 +193,29 @@ def big_shoe_rebounds
   most_rebounds
 end
 
-def most_points_scored
+# Helper functions I wrote -------------------->
+
+# Function to get an array of all players
+def get_all_players
+  game_hash.values.map do |team|
+    team[:players]
+  end.map do |roster|
+    roster.map do |name, stats|
+      {name => stats}
+    end
+  end.flatten
 end
 
-def winning_team
+# Function to get a specific player
+def get_player(player_name)
+  get_all_players.find do |element|
+    element.keys[0].to_s == player_name
+  end
 end
 
-def player_with_longest_name
+# Function to get a specific team
+def get_team(team_name)
+  game_hash.values.find do |team|
+    team[:team_name] == team_name
+  end
 end
-
-def long_name_steals_a_ton?
-end
-
-
-
-
